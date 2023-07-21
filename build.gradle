@@ -1,25 +1,40 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply plugin: "com.github.ben-manes.versions"
+apply plugin: 'kotlin'
+//Check versions of dependencies: ./gradlew dependencyUpdates -Drevision=milestone -DoutputFormatter=json
+//Force-update dependencies:      ./gradlew clean build --refresh-dependencies
 
 buildscript {
+    ext.kotlin_version = '1.9.0'
     repositories {
-        jcenter()
         google()
+        mavenCentral()
+        gradlePluginPortal()
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.0-rc03'
 
-        // NOTE: Do not place your application dependencies here; they belong
+    dependencies {
+        classpath "com.android.tools.build:gradle:8.0.2"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.6.0"
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.47.0"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // in the individual module build.gradle files
     }
 }
 
-allprojects {
-    repositories {
-        jcenter()
-        google()
+dependencyUpdates.resolutionStrategy {
+    componentSelection { rules ->
+        rules.all { ComponentSelection selection ->
+
+            def isNonStable = { String version ->
+                ['alpha', 'cr', 'm', 'preview', 'b', 'ea'].any { qualifier ->
+                    version ==~ /(?i).*[.-]$qualifier[.\d-+]*/
+                }
+            }
+
+            if (isNonStable(candidate.version) && !isNonStable(currentVersion)) {
+                selection.reject('Release candidate')
+            }
+        }
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}

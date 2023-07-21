@@ -1,17 +1,81 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+}
+
+def versionMajor = 1
+def versionMinor = 0
+def versionPatch = 1
+def versionBuild = 1
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    namespace 'com.github.jinatonic.confetti.sample'
+    compileSdk 33
+    buildToolsVersion "33.0.2"
 
     defaultConfig {
         applicationId "com.github.jinatonic.confetti.sample"
-        minSdkVersion 16
-        targetSdkVersion 28
+        minSdk 24
+        targetSdk 33
+
+        versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+        setProperty("archivesBaseName", applicationId + "-" + versionName + "." + versionBuild)
+
+        multiDexEnabled true
+
+        vectorDrawables {
+            useSupportLibrary true
+        }
     }
+
+    kotlinOptions.jvmTarget = '1.8'
+    buildFeatures.viewBinding = true
+
+    lint.abortOnError false
+
+    packagingOptions {
+        resources {
+            excludes += ['META-INF/ASL2.0', 'META-INF/LICENSE', 'META-INF/license.txt',
+                         'META-INF/LICENSE.txt', 'META-INF/NOTICE', 'META-INF/notice.txt',
+                         'META-INF/NOTICE.txt', 'META-INF/services/javax.annotation.processing.Processor',
+                         'META-INF/DEPENDENCIES', 'LICENSE.txt']
+            pickFirsts += ['META-INF/atomicfu.kotlin_module']
+        }
+    }
+
+    kapt {
+        correctErrorTypes true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            debuggable true
+
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled false
+
+            jniDebuggable false
+            renderscriptDebuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -19,6 +83,8 @@ android {
 
 dependencies {
     implementation project(path: ':confetti')
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.annotation:annotation:1.0.2'
+
+    implementation "androidx.appcompat:appcompat:1.6.1"
+    //implementation 'androidx.annotation:annotation:1.0.2'
+    kapt "androidx.annotation:annotation:1.6.0"
 }

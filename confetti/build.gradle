@@ -1,12 +1,63 @@
-apply plugin: 'com.android.library'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+}
+
+def versionMajor = 1
+def versionMinor = 0
+def versionPatch = 1
+def versionBuild = 1
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    namespace 'com.github.jinatonic.confetti'
+    compileSdk 33
+    buildToolsVersion "33.0.2"
 
     defaultConfig {
-        minSdkVersion 12
-        targetSdkVersion 28
+        minSdk 24
+        targetSdk 33
+
+        versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+        setProperty("archivesBaseName", applicationId + "-" + versionName + "." + versionBuild)
+
+        multiDexEnabled true
+
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    kotlinOptions.jvmTarget = '1.8'
+    buildFeatures.viewBinding = true
+
+    lint.abortOnError false
+
+    packagingOptions {
+        resources {
+            excludes += ['META-INF/ASL2.0', 'META-INF/LICENSE', 'META-INF/license.txt',
+                         'META-INF/LICENSE.txt', 'META-INF/NOTICE', 'META-INF/notice.txt',
+                         'META-INF/NOTICE.txt', 'META-INF/services/javax.annotation.processing.Processor',
+                         'META-INF/DEPENDENCIES', 'LICENSE.txt']
+            pickFirsts += ['META-INF/atomicfu.kotlin_module']
+        }
+    }
+
+    kapt {
+        correctErrorTypes true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
     }
 }
 
@@ -14,5 +65,3 @@ android {
 dependencies {
     testImplementation 'junit:junit:4.12'
 }
-
-apply from: './gradle-mvn-push.gradle'

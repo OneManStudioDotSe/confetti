@@ -1,24 +1,9 @@
-/**
- * Copyright (C) 2016 Robinhood Markets, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.github.jinatonic.confetti;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.ViewGroup;
 
@@ -44,12 +29,11 @@ public class CommonConfetti {
     // region Pre-configured confetti animations
 
     /**
+     * @param container the container viewgroup to host the confetti animation.
+     * @param colors    the set of colors to colorize the confetti bitmaps.
+     * @return the created common confetti object.
      * @see #rainingConfetti(ViewGroup, ConfettiSource, int[]) but with the default confetti source
      * to be the top of the confetti container viewgroup.
-     *
-     * @param container the container viewgroup to host the confetti animation.
-     * @param colors the set of colors to colorize the confetti bitmaps.
-     * @return the created common confetti object.
      */
     public static CommonConfetti rainingConfetti(ViewGroup container, int[] colors) {
         final CommonConfetti commonConfetti = new CommonConfetti(container);
@@ -62,13 +46,13 @@ public class CommonConfetti {
     /**
      * Configures a confetti manager that has confetti falling from the provided confetti source.
      *
-     * @param container the container viewgroup to host the confetti animation.
+     * @param container      the container viewgroup to host the confetti animation.
      * @param confettiSource the source of the confetti animation.
-     * @param colors the set of colors to colorize the confetti bitmaps.
+     * @param colors         the set of colors to colorize the confetti bitmaps.
      * @return the created common confetti object.
      */
     public static CommonConfetti rainingConfetti(ViewGroup container,
-            ConfettiSource confettiSource, int[] colors) {
+                                                 ConfettiSource confettiSource, int[] colors) {
         final CommonConfetti commonConfetti = new CommonConfetti(container);
         commonConfetti.configureRainingConfetti(container, confettiSource, colors);
         return commonConfetti;
@@ -79,14 +63,20 @@ public class CommonConfetti {
      * provided x and y coordinates.
      *
      * @param container the container viewgroup to host the confetti animation.
-     * @param x the x coordinate of the explosion source.
-     * @param y the y coordinate of the explosion source.
-     * @param colors the set of colors to colorize the confetti bitmaps.
+     * @param x         the x coordinate of the explosion source.
+     * @param y         the y coordinate of the explosion source.
+     * @param colors    the set of colors to colorize the confetti bitmaps.
      * @return the created common confetti object.
      */
     public static CommonConfetti explosion(ViewGroup container, int x, int y, int[] colors) {
         final CommonConfetti commonConfetti = new CommonConfetti(container);
         commonConfetti.configureExplosion(container, x, y, colors);
+        return commonConfetti;
+    }
+
+    public static CommonConfetti emission(ViewGroup container, int x, int y, int[] colors) {
+        final CommonConfetti commonConfetti = new CommonConfetti(container);
+        commonConfetti.configureEmission(container, x, y, colors);
         return commonConfetti;
     }
 
@@ -143,8 +133,7 @@ public class CommonConfetti {
         };
     }
 
-    private void configureRainingConfetti(ViewGroup container, ConfettiSource confettiSource,
-            int[] colors) {
+    private void configureRainingConfetti(ViewGroup container, ConfettiSource confettiSource, int[] colors) {
         final Context context = container.getContext();
         final ConfettoGenerator generator = getDefaultGenerator(colors);
 
@@ -173,6 +162,32 @@ public class CommonConfetti {
                 .setInitialRotation(180, 180)
                 .setRotationalAcceleration(360, 180)
                 .setTargetRotationalVelocity(360);
+    }
+
+    private void configureEmission(ViewGroup container, int x, int y, int[] colors) {
+        final Context context = container.getContext();
+
+        final List<Bitmap> allPossibleConfetti = Utils.generateCircleConfettiBitmaps(
+                new int[]{Color.RED, Color.GREEN, Color.BLUE},
+                16 /* size */);
+
+        final int numConfetti = allPossibleConfetti.size();
+        final ConfettoGenerator confettoGenerator = random -> {
+            final Bitmap bitmap = allPossibleConfetti.get(random.nextInt(numConfetti));
+            return new BitmapConfetto(bitmap);
+        };
+
+        final int centerX = container.getWidth() / 2;
+        final int centerY = container.getHeight() / 5 * 2;
+        final ConfettiSource confettiSource = new ConfettiSource(centerX, centerY);
+
+        confettiManager = new ConfettiManager(context, confettoGenerator, confettiSource, container)
+                .setVelocityX(0, defaultVelocitySlow)
+                .setVelocityY(0, defaultVelocitySlow)
+                .enableFadeOut(Utils.getDefaultAlphaInterpolator());
+                //.setInitialRotation(0, 0)
+                //.setRotationalAcceleration(360, 180)
+                //.setTargetRotationalVelocity(360);
     }
 
     private static void ensureStaticResources(ViewGroup container) {

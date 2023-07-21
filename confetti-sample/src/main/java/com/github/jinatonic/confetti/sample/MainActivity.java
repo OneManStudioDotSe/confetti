@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
                     R.string.ice_flakes_with_listener,
                     FallingConfettiWithListenerActivity.class
             ),
+            new ConfettiSample(R.string.generation,
+                    SourceEmissionActivity.class)
     };
 
     @Override
@@ -72,12 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 final View view = super.getView(position, convertView, parent);
                 final ConfettiSample sample = getItem(position);
                 ((TextView) view).setText(sample.nameResId);
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(new Intent(MainActivity.this, sample.targetActivityClass));
-                    }
-                });
+                view.setOnClickListener(view1 -> startActivity(new Intent(MainActivity.this, sample.targetActivityClass)));
 
                 return view;
             }

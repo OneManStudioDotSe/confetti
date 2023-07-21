@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2016 Robinhood Markets, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.github.jinatonic.confetti.confetto;
 
 import android.graphics.Canvas;
@@ -160,8 +144,7 @@ public abstract class Confetto {
     public abstract int getHeight();
 
     // Visible for testing
-    protected static Long computeMillisToReachTarget(Float targetVelocity, float initialVelocity,
-            float acceleration) {
+    protected static Long computeMillisToReachTarget(Float targetVelocity, float initialVelocity, float acceleration) {
         if (targetVelocity != null) {
             if (acceleration != 0f) {
                 final long time = (long) ((targetVelocity - initialVelocity) / acceleration);
@@ -179,8 +162,7 @@ public abstract class Confetto {
     }
 
     // Visible for testing
-    protected static long computeBound(float initialPos, float velocity, float acceleration,
-            Long targetTime, Float targetVelocity, int minBound, int maxBound) {
+    protected static long computeBound(float initialPos, float velocity, float acceleration, Long targetTime, Float targetVelocity, int minBound, int maxBound) {
         if (acceleration != 0) {
             // non-zero acceleration
             final int bound = acceleration > 0 ? maxBound : minBound;
@@ -214,7 +196,7 @@ public abstract class Confetto {
                         (bound - initialPos - velocity * targetTime -
                                 0.5 * acceleration * targetTime * targetTime +
                                 targetVelocity * targetTime) /
-                        targetVelocity;
+                                targetVelocity;
 
                 return time > 0 ? (long) time : Long.MAX_VALUE;
             }
@@ -316,8 +298,7 @@ public abstract class Confetto {
         return !terminated;
     }
 
-    private void computeDistance(float[] pair, long t, float xi, float vi, float ai, Long targetTime,
-                                 Float vTarget) {
+    private void computeDistance(float[] pair, long t, float xi, float vi, float ai, Long targetTime, Float vTarget) {
         // velocity with constant acceleration
         float vX = ai * t + vi;
         pair[1] = vX;
@@ -368,18 +349,16 @@ public abstract class Confetto {
      * Subclasses need to override this method to optimize for the way to draw the appropriate
      * confetto on the canvas.
      *
-     * @param canvas the canvas to draw on.
-     * @param matrix an identity matrix to use for draw manipulations.
-     * @param paint the paint to perform canvas draw operations on. This paint has already been
-     *   configured via {@link #configurePaint(Paint)}.
-     * @param x the x position of the confetto relative to the canvas.
-     * @param y the y position of the confetto relative to the canvas.
-     * @param rotation the rotation (in degrees) to draw the confetto.
+     * @param canvas          the canvas to draw on.
+     * @param matrix          an identity matrix to use for draw manipulations.
+     * @param paint           the paint to perform canvas draw operations on. This paint has already been
+     *                        configured via {@link #configurePaint(Paint)}.
+     * @param x               the x position of the confetto relative to the canvas.
+     * @param y               the y position of the confetto relative to the canvas.
+     * @param rotation        the rotation (in degrees) to draw the confetto.
      * @param percentAnimated the percentage [0f, 1f] of animation progress for this confetto.
      */
-    protected abstract void drawInternal(Canvas canvas, Matrix matrix, Paint paint, float x,
-            float y, float rotation, float percentAnimated);
-
+    protected abstract void drawInternal(Canvas canvas, Matrix matrix, Paint paint, float x, float y, float rotation, float percentAnimated);
 
     // region Helper methods to set all of the necessary values for the confetto.
 

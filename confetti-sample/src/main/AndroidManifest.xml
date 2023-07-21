@@ -6,7 +6,8 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -24,6 +25,8 @@
         <activity android:name=".FallingWithTouchActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".FallingConfettiWithListenerActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".SourceEmissionActivity"
             android:parentActivityName=".MainActivity" />
 
     </application>

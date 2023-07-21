@@ -1,19 +1,3 @@
-/**
- * Copyright (C) 2016 Robinhood Markets, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.github.jinatonic.confetti;
 
 import android.animation.ValueAnimator;
@@ -77,12 +61,12 @@ public class ConfettiManager {
     private ConfettiAnimationListener animationListener;
 
     public ConfettiManager(Context context, ConfettoGenerator confettoGenerator,
-            ConfettiSource confettiSource, ViewGroup parentView) {
+                           ConfettiSource confettiSource, ViewGroup parentView) {
         this(confettoGenerator, confettiSource, parentView, ConfettiView.newInstance(context));
     }
 
     public ConfettiManager(ConfettoGenerator confettoGenerator,
-            ConfettiSource confettiSource, ViewGroup parentView, ConfettiView confettiView) {
+                           ConfettiSource confettiSource, ViewGroup parentView, ConfettiView confettiView) {
         this.confettoGenerator = confettoGenerator;
         this.confettiSource = confettiSource;
         this.parentView = parentView;
@@ -120,7 +104,7 @@ public class ConfettiManager {
      * Configures how long this manager will emit new confetti after the animation starts.
      *
      * @param emissionDurationInMillis how long to emit new confetti in millis. This value can be
-     *   {@link #INFINITE_DURATION} for a never-ending emission.
+     *                                 {@link #INFINITE_DURATION} for a never-ending emission.
      * @return the confetti manager so that the set calls can be chained.
      */
     public ConfettiManager setEmissionDuration(long emissionDurationInMillis) {
@@ -142,10 +126,9 @@ public class ConfettiManager {
     }
 
     /**
-     * @see #setVelocityX(float, float)
-     *
      * @param velocityX the X velocity in pixels per second.
      * @return the confetti manager so that the set calls can be chained.
+     * @see #setVelocityX(float, float)
      */
     public ConfettiManager setVelocityX(float velocityX) {
         return setVelocityX(velocityX, 0f);
@@ -156,7 +139,7 @@ public class ConfettiManager {
      * for the generated confetti. The actual confetti's X velocity will be
      * (velocityX +- [0, velocityDeviationX]).
      *
-     * @param velocityX the X velocity in pixels per second.
+     * @param velocityX          the X velocity in pixels per second.
      * @param velocityDeviationX the deviation from X velocity in pixels per second.
      * @return the confetti manager so that the set calls can be chained.
      */
@@ -167,10 +150,9 @@ public class ConfettiManager {
     }
 
     /**
-     * @see #setVelocityY(float, float)
-     *
      * @param velocityY the Y velocity in pixels per second.
      * @return the confetti manager so that the set calls can be chained.
+     * @see #setVelocityY(float, float)
      */
     public ConfettiManager setVelocityY(float velocityY) {
         return setVelocityY(velocityY, 0f);
@@ -182,7 +164,7 @@ public class ConfettiManager {
      * (velocityY +- [0, velocityDeviationY]). A positive Y velocity means that the velocity
      * is going down (because Y coordinate increases going down).
      *
-     * @param velocityY the Y velocity in pixels per second.
+     * @param velocityY          the Y velocity in pixels per second.
      * @param velocityDeviationY the deviation from Y velocity in pixels per second.
      * @return the confetti manager so that the set calls can be chained.
      */
@@ -193,10 +175,9 @@ public class ConfettiManager {
     }
 
     /**
-     * @see #setAccelerationX(float, float)
-     *
      * @param accelerationX the X acceleration in pixels per second^2.
      * @return the confetti manager so that the set calls can be chained.
+     * @see #setAccelerationX(float, float)
      */
     public ConfettiManager setAccelerationX(float accelerationX) {
         return setAccelerationX(accelerationX, 0f);
@@ -207,7 +188,7 @@ public class ConfettiManager {
      * for the generated confetti. The actual confetti's X acceleration will be
      * (accelerationX +- [0, accelerationDeviationX]).
      *
-     * @param accelerationX the X acceleration in pixels per second^2.
+     * @param accelerationX          the X acceleration in pixels per second^2.
      * @param accelerationDeviationX the deviation from X acceleration in pixels per second^2.
      * @return the confetti manager so that the set calls can be chained.
      */
@@ -218,10 +199,9 @@ public class ConfettiManager {
     }
 
     /**
-     * @see #setAccelerationY(float, float)
-     *
      * @param accelerationY the Y acceleration in pixels per second^2.
      * @return the confetti manager so that the set calls can be chained.
+     * @see #setAccelerationY(float, float)
      */
     public ConfettiManager setAccelerationY(float accelerationY) {
         return setAccelerationY(accelerationY, 0f);
@@ -233,7 +213,7 @@ public class ConfettiManager {
      * (accelerationY +- [0, accelerationDeviationY]). A positive Y acceleration means that the
      * confetto will be accelerating downwards.
      *
-     * @param accelerationY the Y acceleration in pixels per second^2.
+     * @param accelerationY          the Y acceleration in pixels per second^2.
      * @param accelerationDeviationY the deviation from Y acceleration in pixels per second^2.
      * @return the confetti manager so that the set calls can be chained.
      */
@@ -244,10 +224,9 @@ public class ConfettiManager {
     }
 
     /**
-     * @see #setTargetVelocityX(float, float)
-     *
      * @param targetVelocityX the target X velocity in pixels per second.
      * @return the confetti manager so that the set calls can be chained.
+     * @see #setTargetVelocityX(float, float)
      */
     public ConfettiManager setTargetVelocityX(float targetVelocityX) {
         return setTargetVelocityX(targetVelocityX, 0f);
@@ -257,22 +236,21 @@ public class ConfettiManager {
      * Set the target X velocity that confetti can reach during the animation. The actual confetti's
      * target X velocity will be (targetVelocityX +- [0, targetVelocityXDeviation]).
      *
-     * @param targetVelocityX the target X velocity in pixels per second.
-     * @param targetVelocityXDeviation  the deviation from target X velocity in pixels per second.
+     * @param targetVelocityX          the target X velocity in pixels per second.
+     * @param targetVelocityXDeviation the deviation from target X velocity in pixels per second.
      * @return the confetti manager so that the set calls can be chained.
      */
     public ConfettiManager setTargetVelocityX(float targetVelocityX,
-            float targetVelocityXDeviation) {
+                                              float targetVelocityXDeviation) {
         this.targetVelocityX = targetVelocityX / 1000f;
         this.targetVelocityXDeviation = targetVelocityXDeviation / 1000f;
         return this;
     }
 
     /**
-     * @see #setTargetVelocityY(float, float)
-     *
      * @param targetVelocityY the target Y velocity in pixels per second.
      * @return the confetti manager so that the set calls can be chained.
+     * @see #setTargetVelocityY(float, float)
      */
     public ConfettiManager setTargetVelocityY(float targetVelocityY) {
         return setTargetVelocityY(targetVelocityY, 0f);
@@ -282,22 +260,21 @@ public class ConfettiManager {
      * Set the target Y velocity that confetti can reach during the animation. The actual confetti's
      * target Y velocity will be (targetVelocityY +- [0, targetVelocityYDeviation]).
      *
-     * @param targetVelocityY the target Y velocity in pixels per second.
-     * @param targetVelocityYDeviation  the deviation from target Y velocity in pixels per second.
+     * @param targetVelocityY          the target Y velocity in pixels per second.
+     * @param targetVelocityYDeviation the deviation from target Y velocity in pixels per second.
      * @return the confetti manager so that the set calls can be chained.
      */
     public ConfettiManager setTargetVelocityY(float targetVelocityY,
-            float targetVelocityYDeviation) {
+                                              float targetVelocityYDeviation) {
         this.targetVelocityY = targetVelocityY / 1000f;
         this.targetVelocityYDeviation = targetVelocityYDeviation / 1000f;
         return this;
     }
 
     /**
-     * @see #setInitialRotation(int, int)
-     *
      * @param initialRotation the initial rotation in degrees.
      * @return the confetti manager so that the set calls can be chained.
+     * @see #setInitialRotation(int, int)
      */
     public ConfettiManager setInitialRotation(int initialRotation) {
         return setInitialRotation(initialRotation, 0);
@@ -308,7 +285,7 @@ public class ConfettiManager {
      * degrees for the generated confetti. The actual confetti's initial rotation will be
      * (initialRotation +- [0, initialRotationDeviation]).
      *
-     * @param initialRotation the initial rotation in degrees.
+     * @param initialRotation          the initial rotation in degrees.
      * @param initialRotationDeviation the deviation from initial rotation in degrees.
      * @return the confetti manager so that the set calls can be chained.
      */
@@ -319,10 +296,9 @@ public class ConfettiManager {
     }
 
     /**
-     * @see #setRotationalVelocity(float, float)
-     *
      * @param rotationalVelocity the initial rotational velocity in degrees per second.
      * @return the confetti manager so that the set calls can be chained.
+     * @see #setRotationalVelocity(float, float)
      */
     public ConfettiManager setRotationalVelocity(float rotationalVelocity) {
         return setRotationalVelocity(rotationalVelocity, 0f);
@@ -333,23 +309,22 @@ public class ConfettiManager {
      * rotational velocity for the generated confetti. The actual confetti's initial
      * rotational velocity will be (rotationalVelocity +- [0, rotationalVelocityDeviation]).
      *
-     * @param rotationalVelocity the initial rotational velocity in degrees per second.
+     * @param rotationalVelocity          the initial rotational velocity in degrees per second.
      * @param rotationalVelocityDeviation the deviation from initial rotational velocity in
-     *   degrees per second.
+     *                                    degrees per second.
      * @return the confetti manager so that the set calls can be chained.
      */
     public ConfettiManager setRotationalVelocity(float rotationalVelocity,
-            float rotationalVelocityDeviation) {
+                                                 float rotationalVelocityDeviation) {
         this.rotationalVelocity = rotationalVelocity / 1000f;
         this.rotationalVelocityDeviation = rotationalVelocityDeviation / 1000f;
         return this;
     }
 
     /**
-     * @see #setRotationalAcceleration(float, float)
-     *
      * @param rotationalAcceleration the rotational acceleration in degrees per second^2.
      * @return the confetti manager so that the set calls can be chained.
+     * @see #setRotationalAcceleration(float, float)
      */
     public ConfettiManager setRotationalAcceleration(float rotationalAcceleration) {
         return setRotationalAcceleration(rotationalAcceleration, 0f);
@@ -360,23 +335,22 @@ public class ConfettiManager {
      * acceleration of the rotation for the generated confetti. The actual confetti's rotational
      * acceleration will be (rotationalAcceleration +- [0, rotationalAccelerationDeviation]).
      *
-     * @param rotationalAcceleration the rotational acceleration in degrees per second^2.
+     * @param rotationalAcceleration          the rotational acceleration in degrees per second^2.
      * @param rotationalAccelerationDeviation the deviation from rotational acceleration in degrees
-     *   per second^2.
+     *                                        per second^2.
      * @return the confetti manager so that the set calls can be chained.
      */
     public ConfettiManager setRotationalAcceleration(float rotationalAcceleration,
-            float rotationalAccelerationDeviation) {
+                                                     float rotationalAccelerationDeviation) {
         this.rotationalAcceleration = rotationalAcceleration / 1000000f;
         this.rotationalAccelerationDeviation = rotationalAccelerationDeviation / 1000000f;
         return this;
     }
 
     /**
-     * @see #setTargetRotationalVelocity(float, float)
-     *
      * @param targetRotationalVelocity the target rotational velocity in degrees per second.
      * @return the confetti manager so that the set calls can be chained.
+     * @see #setTargetRotationalVelocity(float, float)
      */
     public ConfettiManager setTargetRotationalVelocity(float targetRotationalVelocity) {
         return setTargetRotationalVelocity(targetRotationalVelocity, 0f);
@@ -387,13 +361,13 @@ public class ConfettiManager {
      * confetti's target rotational velocity will be
      * (targetRotationalVelocity +- [0, targetRotationalVelocityDeviation]).
      *
-     * @param targetRotationalVelocity the target rotational velocity in degrees per second.
+     * @param targetRotationalVelocity          the target rotational velocity in degrees per second.
      * @param targetRotationalVelocityDeviation the deviation from target rotational velocity
-     *   in degrees per second.
+     *                                          in degrees per second.
      * @return the confetti manager so that the set calls can be chained.
      */
     public ConfettiManager setTargetRotationalVelocity(float targetRotationalVelocity,
-            float targetRotationalVelocityDeviation) {
+                                                       float targetRotationalVelocityDeviation) {
         this.targetRotationalVelocity = targetRotationalVelocity / 1000f;
         this.targetRotationalVelocityDeviation = targetRotationalVelocityDeviation / 1000f;
         return this;
@@ -432,7 +406,7 @@ public class ConfettiManager {
      * to its TTL or, if TTL is not set, its bounds.
      *
      * @param fadeOutInterpolator an interpolator that interpolates animation progress [0, 1] into
-     *   an alpha value [0, 1], 0 being transparent and 1 being opaque.
+     *                            an alpha value [0, 1], 0 being transparent and 1 being opaque.
      * @return the confetti manager so that the set calls can be chained.
      */
     public ConfettiManager enableFadeOut(Interpolator fadeOutInterpolator) {
@@ -613,7 +587,7 @@ public class ConfettiManager {
     }
 
     protected void configureConfetto(Confetto confetto, ConfettiSource confettiSource,
-            Random random, long initialDelay) {
+                                     Random random, long initialDelay) {
         confetto.setInitialDelay(initialDelay);
         confetto.setInitialX(confettiSource.getInitialX(random.nextFloat()));
         confetto.setInitialY(confettiSource.getInitialY(random.nextFloat()));
@@ -633,7 +607,7 @@ public class ConfettiManager {
                 getVarianceAmount(rotationalAcceleration, rotationalAccelerationDeviation, random));
         confetto.setTargetRotationalVelocity(targetRotationalVelocity == null ? null
                 : getVarianceAmount(targetRotationalVelocity, targetRotationalVelocityDeviation,
-                        random));
+                random));
         confetto.setTTL(ttl);
         confetto.setFadeOut(fadeOutInterpolator);
     }
@@ -645,15 +619,29 @@ public class ConfettiManager {
 
     public interface ConfettiAnimationListener {
         void onAnimationStart(ConfettiManager confettiManager);
+
         void onAnimationEnd(ConfettiManager confettiManager);
+
         void onConfettoEnter(Confetto confetto);
+
         void onConfettoExit(Confetto confetto);
     }
 
     public static class ConfettiAnimationListenerAdapter implements ConfettiAnimationListener {
-        @Override public void onAnimationStart(ConfettiManager confettiManager) {}
-        @Override public void onAnimationEnd(ConfettiManager confettiManager) {}
-        @Override public void onConfettoEnter(Confetto confetto) {}
-        @Override public void onConfettoExit(Confetto confetto) {}
+        @Override
+        public void onAnimationStart(ConfettiManager confettiManager) {
+        }
+
+        @Override
+        public void onAnimationEnd(ConfettiManager confettiManager) {
+        }
+
+        @Override
+        public void onConfettoEnter(Confetto confetto) {
+        }
+
+        @Override
+        public void onConfettoExit(Confetto confetto) {
+        }
     }
 }
